@@ -149,5 +149,13 @@ class TestNamespacesAPI(unittest.TestCase):
         result = context.findvalues('//pork:item', self.doc)
         self.failUnlessEqual(result, ['porcupine'])
 
+    def test_namespaceuri_with_manually_set_xmlns(self):
+        root = self.doc.createElementNS('http://porcupine.example.org/', 'doc')
+        root.setAttribute('xmlns', 'http://parrot.example.org/')
+        self.doc.documentElement = root
+        context = xpath.XPathContext(self.doc)
+        result = context.findvalues('//item', self.doc)
+        self.failUnlessEqual(result, ['porcupine'])
+
 if __name__ == '__main__':
     unittest.main()

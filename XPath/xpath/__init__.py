@@ -35,9 +35,10 @@ class XPathContext(object):
             if document.nodeType != document.DOCUMENT_NODE:
                 document = document.ownerDocument
             if document.documentElement is not None:
+                self.default_namespace = document.documentElement.namespaceURI
                 attrs = document.documentElement.attributes
                 for attr in (attrs.item(i) for i in xrange(attrs.length)):
-                    if attr.name == 'xmlns':
+                    if attr.name == 'xmlns' and self.default_namespace is None:
                         self.default_namespace = attr.value
                     elif attr.name.startswith('xmlns:'):
                         self.namespaces[attr.name[6:]] = attr.value
